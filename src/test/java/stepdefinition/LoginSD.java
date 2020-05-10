@@ -17,7 +17,7 @@ public class LoginSD {
 
     @Given("^I am on home page$")
     public void iAmOnHomePage() {
-        Assert.assertEquals(SharedSD.getDriver().getTitle(), "Facebook - Log In or Sign Up", "Invalid Home Page");
+        Assert.assertEquals(SharedSD.getDriver().getTitle(), "Facebook – log in or sign up", "Invalid Home Page");
     }
 
     @When("^I enter (.+) into (username|password|firstname|lastname|mobile number|new password) text fields on home screen$")
@@ -59,9 +59,15 @@ public class LoginSD {
         }
     }
 
-    @Then("^I verify that i am an invalid login page$")
+    @Then("^I verify that i am an (invalid) login page$")
     public void verifyInvalidLoginPage() {
-        Assert.assertEquals(loginPage.getPageHeader(), "Log Into Facebook");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(loginPage.getPageHeader(), "Log in to Facebook");
     }
 
     @Then("^I verify invalid signup error message$")

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Wait;
 import stepdefinition.SharedSD;
 
 import java.time.Duration;
+import java.util.List;
 
 /**
  * Created by mohammadmuntakim
@@ -35,6 +36,28 @@ public class BasePage {
 		return element;
 	}
 
+	public static List<WebElement> webActions(final By locator) {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(SharedSD.getDriver())
+				.withTimeout(Duration.ofSeconds(15))
+				.pollingEvery(Duration.ofSeconds(1))
+				.ignoring(NoSuchElementException.class)
+				.ignoring(StaleElementReferenceException.class)
+				.ignoring(ElementClickInterceptedException.class)
+				.withMessage(
+						"Webdriver waited for 15 seconds but still could not find the element therefore Timeout Exception has been thrown");
+
+		List<WebElement> elements = wait.until(new Function<WebDriver, List<WebElement>>() {
+			public List<WebElement> apply(WebDriver driver) {
+				return driver.findElements(locator);
+			}
+		});
+		return elements;
+	}
+
+	public List<WebElement> getElements(By locator) {
+		return SharedSD.getDriver().findElements(locator);
+	}
+
 	public void clickOn(By locator) {
 		webAction(locator).click();
 	}
@@ -45,6 +68,10 @@ public class BasePage {
 
 	public String getTextFromElement(By locator) {
 		return webAction(locator).getText();
+	}
+
+	public String getTextFromElement(WebElement element) {
+		return element.getText();
 	}
 
 	public boolean isElementDisplayed(By locator) {
@@ -67,5 +94,11 @@ public class BasePage {
 		Select selectMonth = new Select(month);
 		//select element by index
 		selectMonth.selectByIndex(index);
+	}
+
+	public void scrollVerticallyByPixel(int y) {
+		String moveBy = String.valueOf(y);
+		JavascriptExecutor jsScrollBy = (JavascriptExecutor) SharedSD.getDriver();
+		jsScrollBy.executeScript("scrollBy(0,"+moveBy+");");
 	}
 }

@@ -11,7 +11,7 @@ public class MobileMenuSD {
     private MainMenu mainMenu = new MainMenu();
     private HomeScreen homeScreen = new HomeScreen();
 
-    @When("^I tap on skip button")
+    @When("^I tap on skip button$")
     public void clickOnSkipButton() {
         homeScreen.tapOnSkipButton();
     }
